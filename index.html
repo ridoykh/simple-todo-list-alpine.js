@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/path/to/tailwind.css" rel="stylesheet">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <script defer src="https://unpkg.com/alpinejs@3.2.3/dist/cdn.min.js"></script>
+  
+</head>
+<body>
+  
+  <div x-data="{completed: [], ncompleted: [], task:''}" class="text-center m-10" x-init="$watch('ncompleted', () => {task = '', $refs.input.focus()})">
+    <h2 class="font-bold text-lg my-2">Todo app list</h2>
+    <div class="flex justify-center">
+      <input class="border-2 border-gray-800 text-center" x-on:keyup.enter="ncompleted.push(task)" type="text" x-model="task">
+      <button @click="ncompleted.push(task)" class="px-5 py-2 bg-green-500 hover:bg-green-600 mx-2 text-gray-100">Add task</button>
+    </div>
+    <div class="flex flex-row justify-center content-center">
+      
+      <ul>
+        <li><h2 class="font-bold my-2">Not completed task -</h2></li>
+        <template x-for="(t, index) in ncompleted" :key="index">
+          <li>
+            <span x-text="t"></span>
+            <button class="text-red-500 font-bold text-lg" @click="completed.push(ncompleted[index]); ncompleted = ncompleted.filter(text => text != ncompleted[index])">X</button>
+          </li>
+        </template>
+      </ul>
+
+      <ul>
+        <li><h2 class="font-bold my-2 mx-2">Completed task</h2></li>
+        <template x-for="(t, index) in completed" :key="index">
+          <li x-text="t"></li>
+        </template>
+      </ul>
+    </div>
+  </div>
+
+
+</body>
+</html>
